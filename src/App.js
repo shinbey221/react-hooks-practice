@@ -3,7 +3,6 @@ import React, { useState } from 'react'
 const App = props => {
   const [state, setState] = useState(props)
   const { name, price } = state
-
   return (
     <React.Fragment>
       <p>現在の{name}は、{price}です</p>
