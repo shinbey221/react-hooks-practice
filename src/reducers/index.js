@@ -4,10 +4,10 @@ const events = (state = [], action) => {
       const event = { title: action.title, body: action.body }
       const length = state.length
       let id
-      length === 0 ? id = 0 : id = state[length - 1].id + 1
+      length === 0 ? id = 1 : id = state[length - 1].id + 1
       return [...state, { id, ...event }]
     case 'DELETE_EVENT':
-      return state
+      return state.filter(item => item.id !== action.id)
     case 'DELETE_ALL_EVENT':
       return []
     default:

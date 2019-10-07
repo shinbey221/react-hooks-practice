@@ -1,7 +1,7 @@
 import React, { useState, useReducer } from 'react'
 import 'bootstrap/dist/css/bootstrap.min.css'
 import reducer from './../reducers/index'
-
+import Event from './Event'
 const App = props => {
   const [state, dispatch] = useReducer(reducer, [])
 
@@ -16,13 +16,19 @@ const App = props => {
     })
     setEventState(props)
   }
+  const deleteAllEvent = e => {
+    e.preventDefault()
+    dispatch({
+      type: 'DELETE_ALL_EVENT'
+    })
+    setEventState(props)
+  }
   const setTitle = e => {
     setEventState({...eventState, title: e.target.value})
   }
   const setBody = e => {
     setEventState({...eventState, body: e.target.value})
   }
-  console.log(state)
   return (
     <div className="container-fluid">
       <h4>イベント作成フォーム</h4>
@@ -37,7 +43,7 @@ const App = props => {
         </div>
 
         <button className="btn btn-primary" onClick={addEvent}>イベントを作成する</button>
-        <button className="btn btn-danger">全てのイベントを削除する</button>        
+        <button className="btn btn-danger" onClick={deleteAllEvent}>全てのイベントを削除する</button>        
       </form>
 
       <h4>イベント一覧</h4>
@@ -49,7 +55,9 @@ const App = props => {
             <th>ボディー</th>
           </tr>
         </thead>
-        <tbody></tbody>
+        <tbody>
+          {state.map((event, index) => (<Event key={index} event={event} dispatch={dispatch} />))}
+        </tbody>
       </table>
     </div>
   );
