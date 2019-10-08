@@ -4,7 +4,6 @@ import reducer from './../reducers/index'
 import EventForm from './EventForm'
 import Events from './Events'
 import AppContext from './../contexts/AppContext'
-
 const App = () => {
   const initialState = {
     events: [],
