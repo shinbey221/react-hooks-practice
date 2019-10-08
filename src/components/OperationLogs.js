@@ -15,7 +15,7 @@ const OperationLogs = () => {
           </tr>
         </thead>
         <tbody>
-          {state.operationLogs.map((log, index) => (<OperationLog log={log} />))}
+          {state.operationLogs.map((log, index) => (<OperationLog key={index} log={log} />))}
         </tbody>
       </table>
     </React.Fragment>
