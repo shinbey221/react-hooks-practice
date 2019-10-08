@@ -1,6 +1,7 @@
 import React, { useState, useContext } from 'react'
-import { CREATE_EVENT, DELETE_ALL_EVENT } from './../actions/index'
+import { CREATE_EVENT, DELETE_ALL_EVENT, ADD_OPERATION_LOG, DELETE_ALL_OPERATION_LOGS } from './../actions/index'
 import AppContext from './../contexts/AppContext'
+import { timeCurrentIso8601 } from './../utils'
 
 const EventForm = props => {
 	const {state, dispatch} = useContext(AppContext)
@@ -9,15 +10,27 @@ const EventForm = props => {
 
 	const addEvent = e => {
     e.preventDefault()
-		dispatch({ type: CREATE_EVENT, title: title, body: body })
+    dispatch({ type: CREATE_EVENT, title: title, body: body })
+    dispatch({ type: ADD_OPERATION_LOG, description: 'イベントを作成しました。', operationAt: timeCurrentIso8601()})
 		setEventState(props)
   }
   const deleteAllEvent = e => {
     e.preventDefault()
     const result = window.confirm('全てのイベントを本当に削除しても良いですか？')
-    if (result)  dispatch({ type: DELETE_ALL_EVENT })
+    if (result) {
+      dispatch({ type: DELETE_ALL_EVENT })
+      dispatch({ type: ADD_OPERATION_LOG, description: '全てのイベントを削除しました。', operationAt: timeCurrentIso8601()})
+    }
 	}
-	
+  const deleteAllOperationLogs = e => {
+    e.preventDefault()
+    const result = window.confirm('全ての操作ログを本当に削除しても良いですか？')
+    if (result) {
+      dispatch({ type: DELETE_ALL_OPERATION_LOGS })
+    }
+	}
+  
+  
   const setTitle = e => {
     setEventState({...eventState, title: e.target.value})
   }
@@ -41,7 +54,8 @@ const EventForm = props => {
         </div>
 
         <button className="btn btn-primary" onClick={addEvent} disabled={unCreatable}>イベントを作成する</button>
-        <button className="btn btn-danger" onClick={deleteAllEvent} disabled={state.events.length === 0}>全てのイベントを削除する</button>        
+        <button className="btn btn-danger" onClick={deleteAllEvent} disabled={state.events.length === 0}>全てのイベントを削除する</button>
+        <button className="btn btn-danger" onClick={deleteAllOperationLogs} disabled={state.operationLogs.length === 0}>全ての操作ログを削除する</button>    
       </form>
 		</React.Fragment>
 	)
