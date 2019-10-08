@@ -41,7 +41,7 @@ const EventForm = props => {
         </div>
 
         <button className="btn btn-primary" onClick={addEvent} disabled={unCreatable}>イベントを作成する</button>
-        <button className="btn btn-danger" onClick={deleteAllEvent} disabled={state.length === 0}>全てのイベントを削除する</button>        
+        <button className="btn btn-danger" onClick={deleteAllEvent} disabled={state.events.length === 0}>全てのイベントを削除する</button>        
       </form>
 		</React.Fragment>
 	)
